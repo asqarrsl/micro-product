@@ -46,6 +46,6 @@ jobs:
       run: |-
         kubectl apply -f k8s/products-deployment.yaml
         kubectl apply -f k8s/products-mongo-deployment.yaml
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl rollout status deployment/$DEPLOYMENT_NAME_MONGO
+        kubectl rollout status deployment/$DEPLOYMENT_NAME '{"spec":{"progressDeadlineSeconds":600}}'
+        kubectl rollout status deployment/$DEPLOYMENT_NAME_MONGO '{"spec":{"progressDeadlineSeconds":600}}'
         kubectl get services -o wide
