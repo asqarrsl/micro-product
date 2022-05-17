@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: products-deployment
-spec:
+spec: 
   replicas: 1
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: products 
-          image: asq/ecommerce-products
+          image: axxshique/micro_products
           env:
             - name: MONGO_URI
               value: 'mongodb+srv://cmt:admin123@cluster0.yjsmx.mongodb.net/cmt_testing123?retryWrites=true&w=majority'
@@ -23,17 +23,17 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: products-service
-spec:
-  type: ClusterIP
-  selector:
-    app: products 
-  ports:
-    - name: products 
-      protocol: TCP
-      port: 8081
-      targetPort: 8081
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: products-service
+# spec:
+#   type: ClusterIP
+#   selector:
+#     app: products 
+#   ports:
+#     - name: products 
+#       protocol: TCP
+#       port: 8081
+#       targetPort: 8081
