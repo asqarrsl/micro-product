@@ -8,7 +8,8 @@ env:
   PROJECT_ID: ${{ secrets.GCLOUD_PROJUCT_NAME }}
   GCLOUD_CLUSTER: product-management
   GCLOD_ZONE: us-central1
-  DEPLOYMENT_NAME: product-management
+  DEPLOYMENT_NAME: products-deployment
+  DEPLOYMENT_NAME_1: products-mongo-deployment
 
 jobs:
   build:
@@ -46,4 +47,5 @@ jobs:
         kubectl apply -f k8s/products-deployment.yaml
         kubectl apply -f k8s/products-mongo-deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl rollout status deployment/$DEPLOYMENT_NAME_1
         kubectl get services -o wide
