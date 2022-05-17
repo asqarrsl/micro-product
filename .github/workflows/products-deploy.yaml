@@ -46,4 +46,3 @@ jobs:
       run: |-
         kubectl apply -f k8s/products-deployment.yaml
         kubectl apply -f k8s/products-mongo-deployment.yaml
-        
