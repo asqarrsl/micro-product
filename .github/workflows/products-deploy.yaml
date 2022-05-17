@@ -8,6 +8,7 @@ env:
   PROJECT_ID: ${{ secrets.GCLOUD_PROJUCT_NAME }}
   GCLOUD_CLUSTER: product-management
   GCLOD_ZONE: us-central1
+  DEPLOYMENT_NAME: product-management
 
 jobs:
   build:
