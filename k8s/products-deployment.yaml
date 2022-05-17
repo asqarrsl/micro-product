@@ -19,4 +19,8 @@ spec:
             - name: MONGO_URI
               value: 'mongodb+srv://cmt:admin123@cluster0.yjsmx.mongodb.net/cmt_testing123?retryWrites=true&w=majority'
             - name: JWT_KEY
-              value: 'high-secret-1133'
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+                  
