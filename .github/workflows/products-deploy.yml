@@ -27,7 +27,7 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_UNM }}/micro_product:${{ github.sha }}
     - name: Update config files in k8s
-      run: sed -i.bak 's/{{tag}}/{{ github.sha }}/g' ./k8s/products-deployment.yaml && rm k8s/*.bak
+      run: sed -i.bak 's/{{tag}}/${{ github.sha }}/g' ./k8s/products-deployment.yaml && rm k8s/*.bak
     - uses: actions-hub/kubectl@master
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
