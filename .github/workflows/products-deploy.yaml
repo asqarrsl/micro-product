@@ -3,6 +3,12 @@ name: Docker Build Deploy
 on:
   push:
     branches: [ master ]
+
+env:
+  PROJECT_ID: ${{ secrets.GCLOUD_PROJUCT_NAME }}
+  GCLOUD_CLUSTER: product-management
+  GCLOD_ZONE: us-central1
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,8 +30,20 @@ jobs:
         tags: ${{ secrets.DOCKER_UNM }}/micro_product:${{ github.sha }}
     - name: Update config files in k8s
       run: sed -i.bak 's/{{tag}}/${{ github.sha }}/g' ./k8s/products-deployment.yaml && rm k8s/*.bak
-    - uses: actions-hub/kubectl@master
-      env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+    - id: "authentication"
+      uses: "google-github-actions/auth@v0"
       with:
-        args: apply -f ./k8s
+        credentials_json: "${{ secrets.GCLOUD_CREDENTIALS }}"
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    - name: "Using Gcloud CLI"
+      run: "gcloud info"
+    - run: |-
+        gcloud container clusters get-credentials "$GCLOUD_CLUSTER" --zone "$GCLOD_ZONE"
+    - name: Deploy
+      run: |-
+        kubectl apply -f ./k8s/
+        kubectl apply -f ./k8s/
+        kubectl rollout status deployment/products-deployment
+        kubectl rollout status deployment/products-mongo-deployment
+        kubectl get services -o wide
